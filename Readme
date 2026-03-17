@@ -1,0 +1,15 @@
+维护
+# 进入项目目录（如果已在目录中可跳过）
+cd /e/Agent/AgentZero
+
+# 确保在 CustomRAG_CN 分支（* 开头即为当前分支）
+git branch
+
+# 添加修改的文件
+git add .
+
+# 提交修改（写清晰修改内容）
+git commit -m "fix: 修复run_ui_cn.py的某个bug"  # 示例提交信息
+
+# 直接推送（已关联远程分支，无需额外参数）
+git push

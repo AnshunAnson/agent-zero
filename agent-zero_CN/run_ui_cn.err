@@ -1,0 +1,15 @@
+E:\Agent\AgentZero\agent-zero_CN\run_ui_cn.py:2: SyntaxWarning: invalid escape sequence '\A'
+  """
+INFO:     Started server process [41916]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://localhost:5001 (Press CTRL+C to quit)
+INFO:     ::1:52735 - "WebSocket /socket.io/?EIO=4&transport=websocket" [accepted]
+C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\site-packages\pathspec\pathspec.py:260: DeprecationWarning: GitWildMatchPattern ('gitwildmatch') is deprecated. Use 'gitignore' for GitIgnoreBasicPattern or GitIgnoreSpecPattern instead.
+  patterns = [pattern_factory(line) for line in lines if line]
+C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\site-packages\pathspec\pattern.py:125: DeprecationWarning: GitWildMatchPattern ('gitwildmatch') is deprecated. Use 'gitignore' for GitIgnoreBasicPattern or GitIgnoreSpecPattern instead.
+  regex, include = self.pattern_to_regex(pattern)
+C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\site-packages\pathspec\pathspec.py:260: DeprecationWarning: GitWildMatchPattern ('gitwildmatch') is deprecated. Use 'gitignore' for GitIgnoreBasicPattern or GitIgnoreSpecPattern instead.
+  patterns = [pattern_factory(line) for line in lines if line]
+C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Lib\site-packages\pathspec\pattern.py:125: DeprecationWarning: GitWildMatchPattern ('gitwildmatch') is deprecated. Use 'gitignore' for GitIgnoreBasicPattern or GitIgnoreSpecPattern instead.
+  regex, include = self.pattern_to_regex(pattern)
