@@ -4,6 +4,13 @@ Create one repo-local adapter file, usually `\.overlay-localization.json`.
 
 This adapter only describes overlay-mode extraction and apply behavior. It does not define machine translation.
 
+For overall mode selection and repo-local asset layout, also read:
+
+- [overlay-mode.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/overlay-mode.md)
+- [repo-contract.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/repo-contract.md)
+
+The adapter defines extraction/apply behavior only. Overlay topology such as sibling incremental repo vs in-repo overlay should live in repo-local workflow config, not in the adapter itself.
+
 User-facing workflow should still be:
 
 1. run export script

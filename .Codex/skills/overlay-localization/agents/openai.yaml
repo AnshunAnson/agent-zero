@@ -1,4 +1,4 @@
 interface:
   display_name: "Overlay Localization"
-  short_description: "Two-script localization workflow for overlays or locale files"
-  default_prompt: "Use $overlay-localization to set up a repeatable localization workflow with one export script and one apply script, using either an overlay tree or the repo's existing locale files."
+  short_description: "Generic translation workflow with export/apply entry scripts"
+  default_prompt: "Use $overlay-localization to scaffold a translation workflow with one export script and one apply script, choosing between overlay mode and existing locale-file mode."

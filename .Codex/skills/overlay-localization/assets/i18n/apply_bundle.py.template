@@ -1,0 +1,150 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+from pathlib import Path
+
+PLACEHOLDER_RE = re.compile(r"\{\{[^}]+\}\}")
+CONFIG_NAME = "translation-rules.json"
+TEXT_BUNDLE_HEADER = "# overlay-localization-text v1"
+
+
+def sha256_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def load_config() -> tuple[dict[str, object], Path]:
+    config_path = Path(__file__).with_name(CONFIG_NAME)
+    config = json.loads(config_path.read_text(encoding="utf-8-sig"))
+    return config, config_path
+
+
+def resolve_path(config_path: Path, value: str | None) -> Path | None:
+    if not value:
+        return None
+    path = Path(value)
+    if not path.is_absolute():
+        path = (config_path.parent / path).resolve()
+    return path
+
+
+def parse_text_bundle(text: str) -> dict[str, str]:
+    translations: dict[str, str] = {}
+    current_id: str | None = None
+
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or line.startswith("## "):
+            continue
+        if line.startswith("@@ "):
+            current_id = line[3:].strip()
+            continue
+        if line.startswith("S "):
+            if current_id is None:
+                raise ValueError("Found S line before any @@ entry.")
+            continue
+        if line.startswith("T "):
+            if current_id is None:
+                raise ValueError("Found T line before any @@ entry.")
+            translations[current_id] = json.loads(line[2:].strip())
+            continue
+        raise ValueError(f"Unrecognized line in text bundle: {raw_line}")
+
+    return translations
+
+
+def extract_placeholders(text: str) -> list[str]:
+    return PLACEHOLDER_RE.findall(text)
+
+
+def validate_translation(source_text: str, translation: str, preserve_placeholders: bool) -> str | None:
+    if not isinstance(translation, str):
+        return "translation is not a string"
+    if not translation.strip():
+        return None
+    if not preserve_placeholders:
+        return None
+
+    source_placeholders = extract_placeholders(source_text)
+    translation_placeholders = extract_placeholders(translation)
+    if source_placeholders != translation_placeholders:
+        return f"placeholders changed; expected {source_placeholders or '[]'} but found {translation_placeholders or '[]'}"
+    return None
+
+
+def main() -> int:
+    config, config_path = load_config()
+    bundle_path = resolve_path(config_path, str(config["bundle_json"]))
+    text_input = resolve_path(config_path, str(config["bundle_text"]))
+    source_file = resolve_path(config_path, str(config["source_file"]))
+    target_file = resolve_path(config_path, str(config["target_file"]))
+    preserve_placeholders = bool(config.get("preserve_placeholders", True))
+
+    if not bundle_path or not text_input or not source_file or not target_file:
+        raise SystemExit("Config is missing bundle_json, bundle_text, source_file, or target_file.")
+
+    bundle = json.loads(bundle_path.read_text(encoding="utf-8-sig"))
+    translations = parse_text_bundle(text_input.read_text(encoding="utf-8-sig"))
+
+    text_updates = 0
+    for entry in bundle.get("entries", []):
+        entry_id = str(entry["id"])
+        if entry_id not in translations:
+            continue
+        new_value = translations[entry_id]
+        if entry.get("translation", "") != new_value:
+            entry["translation"] = new_value
+            text_updates += 1
+
+    current_source_text = source_file.read_text(encoding="utf-8-sig")
+    current_target_text = target_file.read_text(encoding="utf-8-sig")
+    current_source_sha = sha256_text(current_source_text)
+    current_target_sha = sha256_text(current_target_text)
+
+    target = json.loads(current_target_text)
+    validation_errors: list[str] = []
+    applied = 0
+    changed = 0
+    skipped = 0
+    for entry in bundle.get("entries", []):
+        translation = entry.get("translation", "")
+        if not isinstance(translation, str) or not translation.strip():
+            skipped += 1
+            continue
+        error = validate_translation(str(entry.get("source_text", entry["key"])), translation, preserve_placeholders)
+        if error:
+            validation_errors.append(f"{entry['key']}: {error}")
+            continue
+        if target.get(entry["key"]) != translation:
+            target[entry["key"]] = translation
+            changed += 1
+        applied += 1
+
+    if validation_errors:
+        details = "\n".join(validation_errors[:20])
+        if len(validation_errors) > 20:
+            details += f"\n... and {len(validation_errors) - 20} more"
+        raise SystemExit(f"Apply aborted due to validation errors:\n{details}")
+
+    target_file.write_text(json.dumps(target, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    written_target_text = target_file.read_text(encoding="utf-8-sig")
+
+    bundle["source_sha256"] = current_source_sha
+    bundle["target_sha256"] = sha256_text(written_target_text)
+    bundle_path.write_text(json.dumps(bundle, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    print(f"Bundle read: {bundle_path}")
+    print(f"Text bundle read: {text_input}")
+    print(f"Entries updated from text bundle: {text_updates}")
+    if current_target_sha != bundle["target_sha256"] and changed == 0:
+        print("Target file differed from the saved bundle hash but no translated values changed.")
+    print(f"Target locale written: {target_file}")
+    print(f"Entries applied: {applied}")
+    print(f"Entries changed: {changed}")
+    print(f"Entries skipped (still blank): {skipped}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

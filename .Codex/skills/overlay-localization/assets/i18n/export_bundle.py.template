@@ -1,0 +1,163 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+from datetime import datetime, timezone
+from pathlib import Path
+
+TEXT_BUNDLE_HEADER = "# overlay-localization-text v1"
+PLACEHOLDER_RE = re.compile(r"\{\{[^}]+\}\}")
+URL_RE = re.compile(r"^(?:https?://|ftp://|file://|mailto:)", re.IGNORECASE)
+IDENTIFIER_RE = re.compile(r"^[A-Za-z0-9._:/+-]+$")
+LOWER_DOTTED_RE = re.compile(r"^[a-z][a-z0-9._/-]*$")
+CONFIG_NAME = "translation-rules.json"
+
+
+def sha256_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def load_config() -> tuple[dict[str, object], Path]:
+    config_path = Path(__file__).with_name(CONFIG_NAME)
+    config = json.loads(config_path.read_text(encoding="utf-8-sig"))
+    return config, config_path
+
+
+def resolve_path(config_path: Path, value: str | None) -> Path | None:
+    if not value:
+        return None
+    path = Path(value)
+    if not path.is_absolute():
+        path = (config_path.parent / path).resolve()
+    return path
+
+
+def render_text_bundle(bundle: dict[str, object]) -> str:
+    lines = [
+        TEXT_BUNDLE_HEADER,
+        "# adapter=i18n-localization",
+        f"# lang={bundle['target_locale']}",
+        "# mode=untranslated",
+        "# Edit only T lines. Keep @@ and S lines unchanged.",
+        "",
+    ]
+
+    for entry in bundle["entries"]:
+        lines.append(f"@@ {entry['id']}")
+        lines.append(f"S {json.dumps(entry['source_text'], ensure_ascii=False)}")
+        lines.append(f"T {json.dumps(entry['translation'], ensure_ascii=False)}")
+        lines.append("")
+
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def source_text_for_entry(key: str, source_value: str) -> str:
+    return source_value if source_value.strip() else key
+
+
+def build_skip_patterns(config: dict[str, object]) -> list[re.Pattern[str]]:
+    return [re.compile(pattern) for pattern in config.get("skip_patterns", [])]
+
+
+def should_skip_entry(
+    key: str,
+    source_text: str,
+    target_value: str,
+    config: dict[str, object],
+    skip_patterns: list[re.Pattern[str]],
+) -> tuple[bool, str | None]:
+    exact_terms = set(config.get("non_translatable_exact_terms", []))
+    for candidate in (source_text.strip(), key.strip()):
+        if candidate and candidate in exact_terms:
+            return True, "exact_skip"
+        if candidate and URL_RE.match(candidate):
+            return True, "url"
+        if candidate and PLACEHOLDER_RE.fullmatch(candidate):
+            return True, "placeholder_only"
+        if candidate and any(pattern.search(candidate) for pattern in skip_patterns):
+            return True, "pattern_skip"
+        if candidate and LOWER_DOTTED_RE.fullmatch(candidate):
+            return True, "identifier_like"
+        if candidate and IDENTIFIER_RE.fullmatch(candidate) and " " not in candidate:
+            return True, "token_like"
+        if candidate and candidate.isupper() and len(candidate) <= 8 and target_value.strip() == candidate:
+            return True, "short_upper_token"
+    return False, None
+
+
+def main() -> int:
+    config, config_path = load_config()
+    source_file = resolve_path(config_path, str(config["source_file"]))
+    target_file = resolve_path(config_path, str(config["target_file"]))
+    bundle_json = resolve_path(config_path, str(config["bundle_json"]))
+    bundle_text = resolve_path(config_path, str(config["bundle_text"]))
+    source_locale = str(config.get("source_locale", "en-US"))
+    target_locale = str(config.get("target_locale", "zh-CN"))
+
+    if not source_file or not target_file or not bundle_json or not bundle_text:
+        raise SystemExit("Config is missing source_file, target_file, bundle_json, or bundle_text.")
+
+    source = json.loads(source_file.read_text(encoding="utf-8-sig"))
+    target = json.loads(target_file.read_text(encoding="utf-8-sig"))
+    skip_patterns = build_skip_patterns(config)
+
+    entries: list[dict[str, object]] = []
+    skipped_counts: dict[str, int] = {}
+    for key, raw_source_value in source.items():
+        if not isinstance(raw_source_value, str):
+            continue
+        target_value = target.get(key, "")
+        if not isinstance(target_value, str):
+            continue
+
+        source_text = source_text_for_entry(key, raw_source_value)
+        if target_value.strip() and target_value not in {key, source_text}:
+            continue
+
+        should_skip, skip_reason = should_skip_entry(key, source_text, target_value, config, skip_patterns)
+        if should_skip:
+            skipped_counts[skip_reason or "unknown"] = skipped_counts.get(skip_reason or "unknown", 0) + 1
+            continue
+
+        status = "empty" if not target_value.strip() else "same_as_source"
+        entries.append(
+            {
+                "id": key,
+                "key": key,
+                "source_text": source_text,
+                "translation": target_value,
+                "status": status,
+            }
+        )
+
+    bundle = {
+        "type": "generic-i18n-bundle",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "source_locale": source_locale,
+        "target_locale": target_locale,
+        "source_file": str(source_file),
+        "target_file": str(target_file),
+        "source_sha256": sha256_text(source_file.read_text(encoding="utf-8-sig")),
+        "target_sha256": sha256_text(target_file.read_text(encoding="utf-8-sig")),
+        "entry_count": len(entries),
+        "skipped_counts": skipped_counts,
+        "entries": entries,
+    }
+
+    bundle_json.parent.mkdir(parents=True, exist_ok=True)
+    bundle_text.parent.mkdir(parents=True, exist_ok=True)
+    bundle_json.write_text(json.dumps(bundle, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    bundle_text.write_text(render_text_bundle(bundle), encoding="utf-8")
+
+    print(f"Bundle written: {bundle_json}")
+    print(f"Text bundle written: {bundle_text}")
+    print(f"Entries exported: {len(entries)}")
+    if skipped_counts:
+        reasons = ", ".join(f"{name}={count}" for name, count in sorted(skipped_counts.items()))
+        print(f"Entries skipped by filter: {sum(skipped_counts.values())} ({reasons})")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

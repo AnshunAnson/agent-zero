@@ -1,0 +1,17 @@
+{
+  "mode": __MODE__,
+  "source_locale": __SOURCE_LOCALE__,
+  "target_locale": __TARGET_LOCALE__,
+  "source_file": __SOURCE_FILE__,
+  "target_file": __TARGET_FILE__,
+  "bundle_json": __BUNDLE_JSON__,
+  "bundle_text": __BUNDLE_TEXT__,
+  "preserve_placeholders": true,
+  "adapter": __ADAPTER__,
+  "lang": __LANG__,
+  "overlay_topology": __OVERLAY_TOPOLOGY__,
+  "export_mode": __EXPORT_MODE__,
+  "skill_root": __SKILL_ROOT__,
+  "non_translatable_exact_terms": __NON_TRANSLATABLE_EXACT_TERMS__,
+  "skip_patterns": __SKIP_PATTERNS__
+}

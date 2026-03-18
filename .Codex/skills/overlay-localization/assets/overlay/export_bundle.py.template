@@ -1,0 +1,55 @@
+from __future__ import annotations
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+CONFIG_NAME = "translation-rules.json"
+
+
+def load_config() -> tuple[dict[str, object], Path]:
+    config_path = Path(__file__).with_name(CONFIG_NAME)
+    config = json.loads(config_path.read_text(encoding="utf-8-sig"))
+    return config, config_path
+
+
+def resolve_path(config_path: Path, value: str | None) -> Path | None:
+    if not value:
+        return None
+    path = Path(value)
+    if not path.is_absolute():
+        path = (config_path.parent / path).resolve()
+    return path
+
+
+def main() -> int:
+    config, config_path = load_config()
+    skill_root = resolve_path(config_path, str(config["skill_root"]))
+    adapter = resolve_path(config_path, str(config["adapter"]))
+    bundle_text = resolve_path(config_path, str(config["bundle_text"]))
+    lang = str(config.get("lang", "zh-CN"))
+    export_mode = str(config.get("export_mode", "linked-missing"))
+
+    if not skill_root or not adapter or not bundle_text:
+        raise SystemExit("Config is missing skill_root, adapter, or bundle_text.")
+
+    export_script = skill_root / "scripts" / "export_bundle.py"
+    command = [
+        sys.executable,
+        str(export_script),
+        "--adapter",
+        str(adapter),
+        "--lang",
+        lang,
+        "--mode",
+        export_mode,
+        "--text-output",
+        str(bundle_text),
+    ]
+    subprocess.run(command, check=True)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

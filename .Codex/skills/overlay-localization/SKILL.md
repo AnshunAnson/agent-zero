@@ -1,132 +1,124 @@
 ---
 name: overlay-localization
-description: Use when you need a repeatable localization workflow that exports untranslated text into a user-edited bundle and applies it back through either an overlay tree or an existing locale-file system. Best when the user should only interact with one export script and one apply script.
+description: Use when you need a repeatable translation-repo workflow that exports untranslated text into a user-edited bundle and applies it back through either an overlay tree or an existing locale-file system. Best when the user should only interact with one export script and one apply script.
 ---
 
 # Overlay Localization
 
-Use this skill when you need a repeatable extract/edit/apply localization workflow with minimal user steps.
+Use this skill to set up a repeatable translation workflow for a repository. The workflow is always:
 
-Primary goal: extract untranslated text into a compact bundle the user edits outside the chat, then apply it back with a single user-facing script.
+1. export untranslated text
+2. edit the text bundle outside the chat
+3. apply the edited bundle
 
-The user-facing contract is always the same:
-
-- one export script
-- one apply script
-
-Internal helper scripts are allowed, but the user should not need to run anything else.
-
-## Fit Check
+## Trigger
 
 Use this skill when most of these are true:
 
-- The repo has either:
-  - source templates/components that need an overlay tree, or
-  - existing locale files that should remain the source of truth.
-- You need repeatable export/apply tooling, not one-off manual edits.
-- The user should handle the actual translation text outside the model conversation.
+- The repo needs repeatable translation tooling, not one-off edits.
+- The user should edit a compact text bundle rather than raw source files.
+- The final deliverable should hide internal steps behind two user-facing entry points.
+- The repo either:
+  - needs a separate overlay tree for localized files, or
+  - already has locale files that should remain the source of truth.
 
-Do not force overlay mode when built-in i18n already exists.
+Do not force overlay mode when a stable locale system already exists.
 
-## Deliverable
+## Output Contract
 
 Always leave behind exactly two user entry points:
 
-- `export_*.cmd` or equivalent
-- `apply_*.cmd` or equivalent
+- `export_*.cmd` or platform-equivalent
+- `apply_*.cmd` or platform-equivalent
 
-The expected user flow is:
-
-1. Run export
-2. Edit the text bundle
-3. Run apply
+The user should not need to run a third command such as `import`.
 
 ## Mode Selection
 
-Choose one mode before building anything:
-
-- `overlay mode`
-  Use when translated files must live outside upstream source in an overlay tree or sibling repo.
+Choose one mode before generating assets:
 
 - `i18n mode`
-  Use when the repo already has locale files such as `locales/zh-CN/*.json`, `messages.po`, or similar. In this mode, work against the existing locale files directly.
+  Default when the repo already has locale files such as `locales/*.json`, `messages.po`, `*.yaml`, or similar.
+
+- `overlay mode`
+  Use only when translated output must live in an overlay tree or sibling repo outside upstream source.
+  Default overlay topology: sibling incremental repo such as `E:\repo\repo_zh-CN`.
+
+Read the matching reference only after choosing the mode:
+
+- [references/i18n-mode.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/i18n-mode.md)
+- [references/overlay-mode.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/overlay-mode.md)
 
 ## Workflow
 
-1. Confirm the path contract.
-   Identify the source root, target overlay root or target locale file, and bundle output location.
+1. Confirm the repo contract.
+   Read [references/repo-contract.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/repo-contract.md).
 
-2. Create the two user entry points.
-   The scripts should be double-clickable where possible and should use absolute paths or repo-relative paths that do not depend on the current shell location.
+2. Detect mode and required paths.
+   Prefer `i18n mode` when locale files already exist.
 
-3. Scaffold repo-specific internals.
-   In overlay mode, create a repo-local adapter and use the bundled overlay scripts.
-   In i18n mode, create repo-local helper scripts that export untranslated entries from locale files and apply the edited text bundle back into the target locale file.
+3. Scaffold repo-local assets.
+   Use `scripts/scaffold_workflow.py` to generate repo-local helpers, config, and the two user-facing entry points.
 
 4. Export untranslated text.
-   Prefer exporting only missing or source-equal entries.
-   In overlay mode, prefer `linked-missing` before `missing` or `all`.
-   Emit a plain-text bundle for the user to edit.
+   Prefer missing or source-equal entries only.
 
 5. Keep the text bundle human-editable.
-   Preferred format: only `T` lines are user-editable.
-   Do not require the user to edit JSON directly.
+   Prefer the `T`-line format. Do not require the user to edit JSON directly.
 
-6. Apply from the edited text bundle directly.
-   If an internal import step exists, hide it behind the apply script.
-   The user should never need to run a separate import command.
+6. Apply from the text bundle directly.
+   Internal import steps are allowed, but they must stay behind the apply entry point.
 
-7. Validate before finishing.
-   Check placeholders, formatting, and whether the target file really changed.
-   If runtime wiring is needed, keep it in a user-owned layer only.
+7. Validate.
+   Read [references/validation-rules.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/validation-rules.md).
 
 ## Commands
 
-Overlay-mode internals can use the bundled scripts directly. Keep those details behind the user-facing export/apply wrappers.
+Use the scaffold script to generate repo-local assets.
 
-If the repo already has `E:\Agent\AgentZero\.overlay-localization.json`, use it for overlay-mode internals:
+Example for `i18n mode`:
 
 ```powershell
-py -3.12 E:\Agent\AgentZero\.Codex\skills\overlay-localization\scripts\export_bundle.py --adapter E:\Agent\AgentZero\.overlay-localization.json --text-output E:\Agent\AgentZero\agent-zero_CN\usr\translation\component-texts-linked-missing.txt
-py -3.12 E:\Agent\AgentZero\.Codex\skills\overlay-localization\scripts\apply_bundle.py --adapter E:\Agent\AgentZero\.overlay-localization.json
+py -3.12 E:\Agent\AgentZero\.Codex\skills\overlay-localization\scripts\scaffold_workflow.py `
+  --mode i18n `
+  --workflow-root E:\repo\localization `
+  --source-file E:\repo\src\locales\en-US.json `
+  --target-file E:\repo\src\locales\zh-CN.json `
+  --source-locale en-US `
+  --target-locale zh-CN
 ```
 
-For a new repo, scaffold first:
+Example for `overlay mode`:
 
 ```powershell
-py -3.12 E:\Agent\AgentZero\.Codex\skills\overlay-localization\scripts\scaffold_adapter.py `
+py -3.12 E:\Agent\AgentZero\.Codex\skills\overlay-localization\scripts\scaffold_workflow.py `
+  --mode overlay `
+  --workflow-root E:\repo\repo_zh-CN\usr\translation `
   --adapter E:\repo\.overlay-localization.json `
-  --source-root src\templates `
-  --overlay-root-template repo_{lang}\usr\templates `
-  --bundle-root-template repo_{lang}\usr\translation `
-  --default-lang zh-CN `
-  --init-lang
-```
-
-Then export and apply:
-
-```powershell
-py -3.12 E:\Agent\AgentZero\.Codex\skills\overlay-localization\scripts\export_bundle.py --adapter E:\repo\.overlay-localization.json --lang zh-CN --mode linked-missing --text-output E:\repo\repo_zh-CN\usr\translation\component-texts-linked-missing.txt
-py -3.12 E:\Agent\AgentZero\.Codex\skills\overlay-localization\scripts\apply_bundle.py --adapter E:\repo\.overlay-localization.json --lang zh-CN
+  --lang zh-CN `
+  --overlay-topology sibling-incremental-repo `
+  --export-mode linked-missing
 ```
 
 ## Decision Rules
 
 - The user-facing contract is always two scripts only: export and apply.
 - Prefer the existing locale system over overlay mode when the repo already has one.
-- Prefer `linked-missing` before `missing` or `all` in overlay mode.
-- Keep adapters and helper scripts repo-local. The skill stays reusable; repo specifics live outside the skill.
-- Default behavior is extraction and apply only. Do not generate translations in-chat unless the user explicitly asks for that.
-- If an internal import step exists, hide it behind the apply script.
+- In overlay mode, prefer a sibling incremental repo topology before in-place overlay directories when the repo supports it.
+- Prefer repo-local helpers and config over ad hoc one-off commands.
 - Filter obvious non-translatable terms when practical: brand names, protocol names, IDs, raw URLs, and placeholder-only strings.
 - Preserve placeholders and formatting exactly.
-- If the repo uses HTML fragments with nested component includes, read `references/adapter-schema.md` before changing regex or path rules.
-- If a runtime hook is needed, document it in the adapter comments or the task response, but keep implementation in user-owned files only.
+- Do not generate translations in-chat unless the user explicitly asks for that.
+- If the repo uses HTML fragments with nested component includes, read [references/adapter-schema.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/adapter-schema.md) before changing path or regex rules.
 
 ## Resources
 
-- `references/adapter-schema.md`: adapter fields and an example.
-- `scripts/scaffold_adapter.py`: create a repo adapter and optional language skeleton.
-- `scripts/export_bundle.py`: export translatable text into a JSON bundle and optional plain-text file.
-- `scripts/import_text_bundle.py`: merge a human-edited plain-text file back into the JSON bundle.
-- `scripts/apply_bundle.py`: apply translated text into the overlay tree.
+- [references/repo-contract.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/repo-contract.md): repo-local output contract and directory layout
+- [references/i18n-mode.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/i18n-mode.md): locale-file mode rules
+- [references/overlay-mode.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/overlay-mode.md): overlay-tree mode rules
+- [references/validation-rules.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/validation-rules.md): filtering, placeholders, and post-apply checks
+- [references/adapter-schema.md](E:/Agent/AgentZero/.Codex/skills/overlay-localization/references/adapter-schema.md): overlay adapter fields
+- `scripts/scaffold_workflow.py`: generate repo-local assets and two user-facing entry points
+- `scripts/export_bundle.py`: overlay-mode export helper
+- `scripts/import_text_bundle.py`: overlay-mode text import helper used behind apply
+- `scripts/apply_bundle.py`: overlay-mode apply helper
