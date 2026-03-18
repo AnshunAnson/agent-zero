@@ -1,0 +1,4 @@
+interface:
+  display_name: "Overlay Localization"
+  short_description: "Non-invasive repo language overlays"
+  default_prompt: "Use $overlay-localization to extract untranslated text and apply a user-edited bundle without modifying upstream source."
