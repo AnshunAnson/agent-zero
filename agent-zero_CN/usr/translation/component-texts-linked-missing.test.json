@@ -1,0 +1,91 @@
+﻿{
+    "version":  1,
+    "generated_at":  "2026-03-17T13:23:11.488706+00:00",
+    "mode":  "linked-missing",
+    "source_root":  "E:\\Agent\\AgentZero\\agent-zero\\webui\\components",
+    "target_root":  "E:\\Agent\\AgentZero\\agent-zero_CN\\usr\\webui\\components",
+    "file_count":  1,
+    "entry_count":  6,
+    "files":  [
+                  {
+                      "path":  "settings/a2a/a2a-server.html",
+                      "source_file":  "E:\\Agent\\AgentZero\\agent-zero\\webui\\components\\settings\\a2a\\a2a-server.html",
+                      "target_file":  "E:\\Agent\\AgentZero\\agent-zero_CN\\usr\\webui\\components\\settings\\a2a\\a2a-server.html",
+                      "sha256":  "48686c570dfe16ceebc355d3bab47295723daea77e20f8408cb7458879e910b4",
+                      "entries":  [
+                                      {
+                                          "id":  "settings/a2a/a2a-server.html:text:27",
+                                          "kind":  "text",
+                                          "tag":  "title",
+                                          "attribute":  null,
+                                          "start":  27,
+                                          "end":  40,
+                                          "line":  3,
+                                          "column":  12,
+                                          "text":  "A0 A2A Server",
+                                          "translation":  "A0 A2A 服务器"
+                                      },
+                                      {
+                                          "id":  "settings/a2a/a2a-server.html:text:227",
+                                          "kind":  "text",
+                                          "tag":  "div",
+                                          "attribute":  null,
+                                          "start":  227,
+                                          "end":  240,
+                                          "line":  10,
+                                          "column":  38,
+                                          "text":  "A0 A2A Server",
+                                          "translation":  "A0 A2A 服务器"
+                                      },
+                                      {
+                                          "id":  "settings/a2a/a2a-server.html:text:303",
+                                          "kind":  "text",
+                                          "tag":  "div",
+                                          "attribute":  null,
+                                          "start":  303,
+                                          "end":  350,
+                                          "line":  12,
+                                          "column":  13,
+                                          "text":  "Agent Zero can be exposed as an A2A server. See",
+                                          "translation":  "Agent Zero 可以作为 A2A 服务器暴露。参见"
+                                      },
+                                      {
+                                          "id":  "settings/a2a/a2a-server.html:text:418",
+                                          "kind":  "text",
+                                          "tag":  "a",
+                                          "attribute":  null,
+                                          "start":  418,
+                                          "end":  436,
+                                          "line":  12,
+                                          "column":  128,
+                                          "text":  "connection example",
+                                          "translation":  "连接示例"
+                                      },
+                                      {
+                                          "id":  "settings/a2a/a2a-server.html:text:567",
+                                          "kind":  "text",
+                                          "tag":  "div",
+                                          "attribute":  null,
+                                          "start":  567,
+                                          "end":  584,
+                                          "line":  17,
+                                          "column":  40,
+                                          "text":  "Enable A2A server",
+                                          "translation":  "启用 A2A 服务器"
+                                      },
+                                      {
+                                          "id":  "settings/a2a/a2a-server.html:text:653",
+                                          "kind":  "text",
+                                          "tag":  "div",
+                                          "attribute":  null,
+                                          "start":  653,
+                                          "end":  745,
+                                          "line":  19,
+                                          "column":  17,
+                                          "text":  "Expose Agent Zero as A2A server. This allows other agents to connect to A0 via A2A protocol.",
+                                          "translation":  ""
+                                      }
+                                  ]
+                  }
+              ]
+}

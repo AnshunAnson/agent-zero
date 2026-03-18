@@ -1,0 +1,234 @@
+<html>
+  <head>
+    <title>记忆</title>
+  </head>
+
+  <body>
+    <div x-data>
+      <template x-if="$store.settings.settings">
+        <div>
+          <div class="section-title">记忆</div>
+          <div class="section-description">
+            A0 记忆系统的配置。A0 会自动记忆和回忆内容，以增强上下文感知能力。
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">记忆子目录</div>
+              <div class="field-description">
+                /memory 文件夹下用于存储智能体记忆的子目录，用于在不同实例之间隔离记忆存储。
+              </div>
+            </div>
+            <div class="field-control">
+              <input type="text" x-model="$store.settings.settings.agent_memory_subdir" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">记忆面板</div>
+              <div class="field-description">
+                以表格形式查看和浏览所有已存储的记忆，并支持筛选和搜索。
+              </div>
+            </div>
+            <div class="field-control">
+              <button
+                class="btn btn-field"
+                @click="openModal('modals/memory/memory-dashboard.html');"
+              >
+                打开面板
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">启用记忆自动回忆</div>
+              <div class="field-description">Agent Zero 会根据对话上下文自动回忆记忆。</div>
+            </div>
+            <div class="field-control">
+              <label class="toggle">
+                <input type="checkbox" x-model="$store.settings.settings.memory_recall_enabled" />
+                <span class="toggler"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">延迟记忆自动回忆</div>
+              <div class="field-description">
+                智能体不会等待自动记忆回忆完成。记忆会在下一条消息中送达。这样可加快响应速度，但可能让第一步的相关性降低。
+              </div>
+            </div>
+            <div class="field-control">
+              <label class="toggle">
+                <input type="checkbox" x-model="$store.settings.settings.memory_recall_delayed" />
+                <span class="toggler"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">自动回忆 AI 查询预处理</div>
+              <div class="field-description">
+                启用由实用 LLM 根据对话上下文为自动回忆准备向量数据库查询。可提升搜索质量，但每次自动回忆会额外增加 1 次实用 LLM 调用。
+              </div>
+            </div>
+            <div class="field-control">
+              <label class="toggle">
+                <input type="checkbox" x-model="$store.settings.settings.memory_recall_query_prep" />
+                <span class="toggler"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">自动回忆 AI 后置筛选</div>
+              <div class="field-description">
+                启用由实用 LLM 对自动回忆结果进行相关性筛选。可提升搜索质量，但每次自动回忆会额外增加 1 次实用 LLM 调用。
+              </div>
+            </div>
+            <div class="field-control">
+              <label class="toggle">
+                <input type="checkbox" x-model="$store.settings.settings.memory_recall_post_filter" />
+                <span class="toggler"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">记忆自动回忆间隔</div>
+              <div class="field-description">
+                每次用户或上级智能体发送消息后都会回忆记忆。在智能体独白过程中，会按此参数每 X 轮回忆一次记忆。
+              </div>
+            </div>
+            <div class="field-control">
+              <input type="range" min="1" max="10" step="1" x-model.number="$store.settings.settings.memory_recall_interval" />
+              <span class="range-value" x-text="$store.settings.settings.memory_recall_interval"></span>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">记忆自动回忆历史长度</div>
+              <div class="field-description">
+                传递给记忆回忆 LLM 用作上下文的对话历史长度（按字符数计算）。
+              </div>
+            </div>
+            <div class="field-control">
+              <input type="number" x-model.number="$store.settings.settings.memory_recall_history_len" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">记忆自动回忆相似度阈值</div>
+              <div class="field-description">
+                记忆回忆中相似度搜索的阈值（0 = 无相似度要求，1 = 精确匹配）。
+              </div>
+            </div>
+            <div class="field-control">
+              <input type="range" min="0" max="1" step="0.01" x-model.number="$store.settings.settings.memory_recall_similarity_threshold" />
+              <span class="range-value" x-text="$store.settings.settings.memory_recall_similarity_threshold"></span>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">记忆自动回忆搜索的最大记忆数</div>
+              <div class="field-description">
+                向量数据库返回用于后续处理的最大记忆数量。
+              </div>
+            </div>
+            <div class="field-control">
+              <input type="number" x-model.number="$store.settings.settings.memory_recall_memories_max_search" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">记忆自动回忆使用的最大记忆数</div>
+              <div class="field-description">
+                注入到 A0 上下文窗口中的最大记忆数量。
+              </div>
+            </div>
+            <div class="field-control">
+              <input type="number" x-model.number="$store.settings.settings.memory_recall_memories_max_result" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">记忆自动回忆搜索的最大解决方案数</div>
+              <div class="field-description">
+                向量数据库返回用于后续处理的最大解决方案数量。
+              </div>
+            </div>
+            <div class="field-control">
+              <input type="number" x-model.number="$store.settings.settings.memory_recall_solutions_max_search" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">记忆自动回忆使用的最大解决方案数</div>
+              <div class="field-description">
+                注入到 A0 上下文窗口中的最大解决方案数量。
+              </div>
+            </div>
+            <div class="field-control">
+              <input type="number" x-model.number="$store.settings.settings.memory_recall_solutions_max_result" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">启用自动记忆</div>
+              <div class="field-description">
+                A0 会自动从对话历史中记住事实和解决方案。
+              </div>
+            </div>
+            <div class="field-control">
+              <label class="toggle">
+                <input type="checkbox" x-model="$store.settings.settings.memory_memorize_enabled" />
+                <span class="toggler"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">自动记忆 AI 合并</div>
+              <div class="field-description">
+                A0 会使用实用 LLM 自动合并相似记忆。可随时间提升记忆质量，但每条记忆会额外增加 2 次实用 LLM 调用。
+              </div>
+            </div>
+            <div class="field-control">
+              <label class="toggle">
+                <input type="checkbox" x-model="$store.settings.settings.memory_memorize_consolidation" />
+                <span class="toggler"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">自动记忆替换阈值</div>
+              <div class="field-description">
+                仅在禁用 AI 合并时生效。根据该阈值用新记忆替换旧的相似记忆。0 = 即使完全不相似也替换，1 = 仅完全一致时替换。
+              </div>
+            </div>
+            <div class="field-control">
+              <input type="range" min="0" max="1" step="0.01" x-model.number="$store.settings.settings.memory_memorize_replace_threshold" />
+              <span class="range-value" x-text="$store.settings.settings.memory_memorize_replace_threshold"></span>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </body>
+</html>

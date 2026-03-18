@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <title>智能体设置</title>
+  </head>
+
+  <body>
+    <div x-data>
+      <template x-if="$store.settings">
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <a href="#section-agent-config">
+                  <img src="/public/agent.svg" alt="智能体配置" />
+                  <span>智能体配置</span>
+                </a>
+              </li>
+              <li>
+                <a href="#section-chat-model">
+                  <img src="/public/chat_model.svg" alt="聊天模型" />
+                  <span>聊天模型</span>
+                </a>
+              </li>
+              <li>
+                <a href="#section-util-model">
+                  <img src="/public/util_model.svg" alt="实用模型" />
+                  <span>实用模型</span>
+                </a>
+              </li>
+              <li>
+                <a href="#section-browser-model">
+                  <img src="/public/browser_model.svg" alt="浏览器模型" />
+                  <span>浏览器模型</span>
+                </a>
+              </li>
+              <li>
+                <a href="#section-embed-model">
+                  <img src="/public/embed_model.svg" alt="嵌入模型" />
+                  <span>嵌入模型</span>
+                </a>
+              </li>
+              <li>
+                <a href="#section-memory">
+                  <img src="/public/memory.svg" alt="记忆" />
+                  <span>记忆</span>
+                </a>
+              </li>
+              <li>
+                <a href="#section-speech">
+                  <img src="/public/speech.svg" alt="语音" />
+                  <span>语音</span>
+                </a>
+              </li>
+              <li>
+                <a href="#section-workdir">
+                  <img src="/public/folder.svg" alt="工作目录" />
+                  <span>工作目录</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <div id="section-agent-config" class="section">
+            <x-component path="settings/agent/agent.html"></x-component>
+          </div>
+
+          <div id="section-chat-model" class="section">
+            <x-component path="settings/agent/chat_model.html"></x-component>
+          </div>
+
+          <div id="section-util-model" class="section">
+            <x-component path="settings/agent/util_model.html"></x-component>
+          </div>
+
+          <div id="section-browser-model" class="section">
+            <x-component path="settings/agent/browser_model.html"></x-component>
+          </div>
+
+          <div id="section-embed-model" class="section">
+            <x-component path="settings/agent/embed_model.html"></x-component>
+          </div>
+
+          <div id="section-memory" class="section">
+            <x-component path="settings/agent/memory.html"></x-component>
+          </div>
+
+          <div id="section-speech" class="section">
+            <x-component path="settings/agent/speech.html"></x-component>
+          </div>
+
+          <div id="section-workdir" class="section">
+            <x-component path="settings/agent/workdir.html"></x-component>
+          </div>
+        </div>
+      </template>
+    </div>
+  </body>
+</html>

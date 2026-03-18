@@ -8,8 +8,9 @@ Agent Zero 中文版启动脚本
 import sys
 import os
 
-# 添加原项目路径
-ORIGINAL_PROJECT = r"E:\Agent\agent-zero"
+# 以脚本位置为基准定位目录，避免依赖固定盘符路径
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ORIGINAL_PROJECT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "agent-zero"))
 sys.path.insert(0, ORIGINAL_PROJECT)
 
 # 切换工作目录到原项目（确保相对路径正确）
@@ -59,7 +60,7 @@ if hasattr(time, 'tzset'):
     time.tzset()
 
 # ============ 中文版：定义 usr/webui 覆盖路径 ============
-_CN_WEBUI_PATH = r"E:\Agent\agent-zero_me\usr\webui"
+_CN_WEBUI_PATH = os.path.join(SCRIPT_DIR, "usr", "webui")
 _DEFAULT_WEBUI_PATH = get_abs_path("./webui")
 
 def _find_static_file(filename: str) -> str | None:

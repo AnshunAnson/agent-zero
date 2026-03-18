@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <title>工作目录</title>
+
+    <script type="module">
+      import { store } from "/components/settings/settings-store.js";
+      import { store as fileBrowserStore } from "/components/modals/file-browser/file-browser-store.js";
+    </script>
+  </head>
+
+  <body>
+    <div x-data>
+      <template x-if="$store.settings?.settings">
+        <div>
+          <div class="section-title">默认工作目录</div>
+          <div class="section-description">
+            未选择项目时，智能体会被指示使用此目录作为工作区。新的终端会话也会以此目录作为当前工作目录。
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">工作目录路径</div>
+              <div class="field-description">Linux 容器内工作目录的完整路径。默认是 /a0/usr/workdir。</div>
+            </div>
+            <div class="field-control">
+              <input type="text" x-model="$store.settings.settings.workdir_path" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">向智能体展示工作目录结构</div>
+              <div class="field-description">
+                开启后，工作目录的文件结构会注入到智能体的上下文窗口中。
+              </div>
+            </div>
+            <div class="field-control">
+              <label class="toggle">
+                <input type="checkbox" x-model="$store.settings.settings.workdir_show" />
+                <span class="toggler"></span>
+              </label>
+            </div>
+          </div>
+
+          <template x-if="$store.settings.settings.workdir_show">
+            <div>
+              <div class="field">
+                <div class="field-label">
+                  <div class="field-title">最大深度</div>
+                  <div class="field-description">设置文件结构的最大深度（0 = 不限）。</div>
+                </div>
+                <div class="field-control">
+                  <input type="number" x-model.number="$store.settings.settings.workdir_max_depth" min="0" step="1" />
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="field-label">
+                  <div class="field-title">最大行数</div>
+                  <div class="field-description">展示给智能体的总输出最大行数（0 = 不限）。</div>
+                </div>
+                <div class="field-control">
+                  <input type="number" x-model.number="$store.settings.settings.workdir_max_lines" min="0" step="1" />
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="field-label">
+                  <div class="field-title">最大文件夹数</div>
+                  <div class="field-description">单个文件夹下最多显示的子文件夹数量（0 = 不限）。</div>
+                </div>
+                <div class="field-control">
+                  <input type="number" x-model.number="$store.settings.settings.workdir_max_folders" min="0" step="1" />
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="field-label">
+                  <div class="field-title">最大文件数</div>
+                  <div class="field-description">单个文件夹下最多显示的文件数量（0 = 不限）。</div>
+                </div>
+                <div class="field-control">
+                  <input type="number" x-model.number="$store.settings.settings.workdir_max_files" min="0" step="1" />
+                </div>
+              </div>
+
+              <div class="field field-full">
+                <div class="field-label">
+                  <div class="field-title">忽略的文件 / 文件夹</div>
+                  <div class="field-description">使用 gitignore 格式指定匹配模式。</div>
+                </div>
+                <div class="field-control">
+                  <textarea x-model="$store.settings.settings.workdir_gitignore" rows="5" placeholder="输入 gitignore 模式（例如 node_modules/、.git/、*.log）"></textarea>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="field-label">
+                  <div class="field-title">测试输出</div>
+                  <div class="field-description">预览当前工作目录结构输出。</div>
+                </div>
+                <div class="field-control">
+                  <button class="btn btn-field" @click="$store.settings.testWorkdirFileStructure()">测试输出</button>
+                  <button class="btn btn-field" style="margin-left: 0.5em;" @click="$store.fileBrowser.open($store.settings.settings.workdir_path)">浏览</button>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+    </div>
+  </body>
+</html>

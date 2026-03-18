@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>智能体配置</title>
+  </head>
+
+  <body>
+    <div x-data>
+      <template x-if="$store.settings.settings">
+        <div>
+          <div class="section-title">智能体配置</div>
+          <div class="section-description">
+            智能体参数。
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">默认智能体配置档案</div>
+              <div class="field-description">
+                /agents 文件夹下的子目录，用作默认 0 号智能体的配置档案。下级智能体可以使用其他配置档案启动，这由其上级智能体决定。此设置会影响你直接交互的顶层智能体行为。
+              </div>
+            </div>
+            <div class="field-control">
+              <select x-model="$store.settings.settings.agent_profile">
+                <template x-for="option in $store.settings.additional?.agent_subdirs" :key="option.value">
+                  <option :value="option.value" :selected="option.value === $store.settings.settings.agent_profile" x-text="option.label"></option>
+                </template>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <div class="field-title">知识子目录</div>
+              <div class="field-description">
+                /knowledge 文件夹下用于导入智能体知识的子目录。`default` 子目录会始终导入，其中包含框架知识。
+              </div>
+            </div>
+            <div class="field-control">
+              <select x-model="$store.settings.settings.agent_knowledge_subdir">
+                <template x-for="option in $store.settings.additional?.knowledge_subdirs" :key="option.value">
+                  <option :value="option.value" :selected="option.value === $store.settings.settings.agent_knowledge_subdir" x-text="option.label"></option>
+                </template>
+              </select>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </body>
+</html>

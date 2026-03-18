@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>工作目录结构测试</title>
+
+    <script type="module">
+      import { store as settingsStore } from "/components/settings/settings-store.js";
+    </script>
+  </head>
+
+  <body>
+    <div x-data>
+      <template x-if="$store.settings && $store.settings.settings">
+        <div>
+          <h3>工作目录结构测试 - <span x-text="$store.settings.settings.workdir_path"></span></h3>
+          <pre x-text="$store.settings.workdirFileStructureTestOutput"></pre>
+        </div>
+      </template>
+    </div>
+  </body>
+
+  <style>
+  </style>
+</html>

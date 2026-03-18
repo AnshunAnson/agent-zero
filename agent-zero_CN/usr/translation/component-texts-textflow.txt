@@ -1,0 +1,869 @@
+# overlay-localization-text v1
+# adapter=agentzero-webui-components
+# lang=CN
+# mode=linked-missing
+# Edit only T lines. Keep @@ and S lines unchanged.
+
+## settings/a2a/a2a-server.html
+@@ settings/a2a/a2a-server.html:text:27
+S "A0 A2A Server"
+T "[CN]TEST"
+
+@@ settings/a2a/a2a-server.html:text:227
+S "A0 A2A Server"
+T ""
+
+@@ settings/a2a/a2a-server.html:text:303
+S "Agent Zero can be exposed as an A2A server. See"
+T ""
+
+@@ settings/a2a/a2a-server.html:text:418
+S "connection example"
+T ""
+
+@@ settings/a2a/a2a-server.html:text:567
+S "Enable A2A server"
+T ""
+
+@@ settings/a2a/a2a-server.html:text:653
+S "Expose Agent Zero as A2A server. This allows other agents to connect to A0 via A2A protocol."
+T ""
+
+## settings/backup/backup-settings.html
+@@ settings/backup/backup-settings.html:text:27
+S "Backup"
+T ""
+
+@@ settings/backup/backup-settings.html:text:36
+S "Restore"
+T ""
+
+@@ settings/backup/backup-settings.html:attribute:307
+S "Backup & Restore"
+T ""
+
+@@ settings/backup/backup-settings.html:text:352
+S "Backup"
+T ""
+
+@@ settings/backup/backup-settings.html:text:361
+S "Restore"
+T ""
+
+## settings/backup/backup_restore.html
+@@ settings/backup/backup_restore.html:text:27
+S "Backup"
+T ""
+
+@@ settings/backup/backup_restore.html:text:36
+S "Restore"
+T ""
+
+@@ settings/backup/backup_restore.html:text:136
+S "Backup"
+T ""
+
+@@ settings/backup/backup_restore.html:text:149
+S "Restore"
+T ""
+
+@@ settings/backup/backup_restore.html:text:215
+S "Backup and restore Agent Zero data and configurations using glob pattern-based file selection."
+T ""
+
+@@ settings/backup/backup_restore.html:text:427
+S "Create Backup"
+T ""
+
+@@ settings/backup/backup_restore.html:text:505
+S "Create a backup archive of selected files and configurations using customizable patterns."
+T ""
+
+@@ settings/backup/backup_restore.html:text:835
+S "Create Backup"
+T ""
+
+@@ settings/backup/backup_restore.html:text:1005
+S "Restore from Backup"
+T ""
+
+@@ settings/backup/backup_restore.html:text:1089
+S "Restore files and configurations from a backup archive with pattern-based selection."
+T ""
+
+@@ settings/backup/backup_restore.html:text:1415
+S "Restore Backup"
+T ""
+
+## settings/developer/dev.html
+@@ settings/developer/dev.html:text:27
+S "Development"
+T ""
+
+@@ settings/developer/dev.html:text:184
+S "Development"
+T ""
+
+@@ settings/developer/dev.html:text:258
+S "Parameters for A0 framework development. RFCs (remote function calls) are used to call functions on another A0 instance. You can develop and debug A0 natively on your local system while redirecting some functions to A0 instance in docker. This is crucial for development as A0 needs to run in standardized environment to support all features."
+T ""
+
+@@ settings/developer/dev.html:text:726
+S "Shell Interface"
+T ""
+
+@@ settings/developer/dev.html:text:810
+S "Terminal interface used for Code Execution Tool. Local Python TTY works locally in both dockerized and development environments. SSH always connects to dockerized environment (automatically at localhost or RFC host address)."
+T ""
+
+@@ settings/developer/dev.html:text:1746
+S "RFC Destination URL"
+T ""
+
+@@ settings/developer/dev.html:text:1842
+S "URL of dockerized A0 instance for remote function calls. Do not specify port here."
+T ""
+
+@@ settings/developer/dev.html:text:2293
+S "RFC Password"
+T ""
+
+@@ settings/developer/dev.html:text:2374
+S "Password for remote function calls. Passwords must match on both instances. RFCs can not be used with empty password."
+T ""
+
+@@ settings/developer/dev.html:text:2924
+S "RFC HTTP port"
+T ""
+
+@@ settings/developer/dev.html:text:2993
+S "HTTP port for dockerized instance of A0."
+T ""
+
+@@ settings/developer/dev.html:text:3369
+S "RFC SSH port"
+T ""
+
+@@ settings/developer/dev.html:text:3437
+S "SSH port for dockerized instance of A0."
+T ""
+
+@@ settings/developer/dev.html:text:3840
+S "Broadcast server restart event"
+T ""
+
+@@ settings/developer/dev.html:text:3939
+S "Emit a fire-and-forget"
+T ""
+
+@@ settings/developer/dev.html:text:3968
+S "server_restart"
+T ""
+
+@@ settings/developer/dev.html:text:3990
+S "broadcast to clients after the server starts."
+T ""
+
+@@ settings/developer/dev.html:text:4476
+S "Enable uvicorn access logs"
+T ""
+
+@@ settings/developer/dev.html:text:4571
+S "Temporarily enable uvicorn access logs for debugging WebSocket transport issues (default off)."
+T ""
+
+@@ settings/developer/dev.html:text:5032
+S "Applies after backend restart."
+T ""
+
+@@ settings/developer/dev.html:text:5549
+S "Testing"
+T ""
+
+@@ settings/developer/dev.html:text:5627
+S "Utilities for validating WebSocket infrastructure in development environments."
+T ""
+
+@@ settings/developer/dev.html:text:5847
+S "WebSocket Test Harness"
+T ""
+
+@@ settings/developer/dev.html:text:5946
+S "Open the developer harness to run automated and manual WebSocket validation suites."
+T ""
+
+@@ settings/developer/dev.html:text:6314
+S "Open Harness"
+T ""
+
+@@ settings/developer/dev.html:text:6519
+S "WebSocket Event Console"
+T ""
+
+@@ settings/developer/dev.html:text:6619
+S "Inspect inbound and outbound envelopes and lifecycle events in real time (development only)."
+T ""
+
+@@ settings/developer/dev.html:text:7003
+S "Open Console"
+T ""
+
+## settings/developer/developer-settings.html
+@@ settings/developer/developer-settings.html:text:27
+S "Developer"
+T ""
+
+@@ settings/developer/developer-settings.html:attribute:278
+S "Development"
+T ""
+
+@@ settings/developer/developer-settings.html:text:318
+S "Development"
+T ""
+
+## settings/external/api_keys.html
+@@ settings/external/api_keys.html:text:27
+S "API Keys"
+T ""
+
+@@ settings/external/api_keys.html:text:181
+S "API Keys"
+T ""
+
+@@ settings/external/api_keys.html:text:252
+S "API keys for model providers and services used by Agent Zero. You can set multiple API keys separated by a comma (,). They will be used in round-robin fashion."
+T ""
+
+@@ settings/external/api_keys.html:text:428
+S "For more information about Agent Zero Venice provider, see"
+T ""
+
+@@ settings/external/api_keys.html:text:565
+S "Agent Zero Venice"
+T ""
+
+## settings/external/auth.html
+@@ settings/external/auth.html:text:27
+S "Authentication"
+T ""
+
+@@ settings/external/auth.html:text:323
+S "Authentication"
+T ""
+
+@@ settings/external/auth.html:text:400
+S "Settings for authentication to use Agent Zero Web UI."
+T ""
+
+@@ settings/external/auth.html:text:579
+S "UI Login"
+T ""
+
+@@ settings/external/auth.html:text:639
+S "Set user name for web UI"
+T ""
+
+@@ settings/external/auth.html:text:939
+S "UI Password"
+T ""
+
+@@ settings/external/auth.html:text:1002
+S "Set user password for web UI"
+T ""
+
+@@ settings/external/auth.html:text:1391
+S "root Password"
+T ""
+
+@@ settings/external/auth.html:text:1477
+S "Change linux root password in docker container. This password can be used for SSH access. Original password was randomly generated during setup."
+T ""
+
+## settings/external/external-settings.html
+@@ settings/external/external-settings.html:text:27
+S "External Services"
+T ""
+
+@@ settings/external/external-settings.html:attribute:296
+S "API Keys"
+T ""
+
+@@ settings/external/external-settings.html:text:333
+S "API Keys"
+T ""
+
+@@ settings/external/external-settings.html:attribute:507
+S "LiteLLM Global Settings"
+T ""
+
+@@ settings/external/external-settings.html:text:559
+S "LiteLLM Global Settings"
+T ""
+
+@@ settings/external/external-settings.html:attribute:748
+S "Secrets Management"
+T ""
+
+@@ settings/external/external-settings.html:text:795
+S "Secrets Management"
+T ""
+
+@@ settings/external/external-settings.html:attribute:973
+S "Authentication"
+T ""
+
+@@ settings/external/external-settings.html:text:1016
+S "Authentication"
+T ""
+
+@@ settings/external/external-settings.html:attribute:1206
+S "External API"
+T ""
+
+@@ settings/external/external-settings.html:text:1247
+S "External API"
+T ""
+
+@@ settings/external/external-settings.html:attribute:1439
+S "Update Checker"
+T ""
+
+@@ settings/external/external-settings.html:text:1482
+S "Update Checker"
+T ""
+
+@@ settings/external/external-settings.html:attribute:1660
+S "Tunnel"
+T ""
+
+@@ settings/external/external-settings.html:text:1695
+S "Flare Tunnel"
+T ""
+
+## settings/external/external_api.html
+@@ settings/external/external_api.html:text:27
+S "External API"
+T ""
+
+@@ settings/external/external_api.html:text:132
+S "External API"
+T ""
+
+@@ settings/external/external_api.html:text:203
+S "Agent Zero provides external API endpoints for integration with other applications. These endpoints use API key authentication and support text messages and file attachments."
+T ""
+
+@@ settings/external/external_api.html:text:495
+S "API Examples"
+T ""
+
+@@ settings/external/external_api.html:text:572
+S "View examples for using Agent Zero's external API endpoints with API key authentication."
+T ""
+
+@@ settings/external/external_api.html:text:909
+S "Show API Examples"
+T ""
+
+## settings/external/litellm.html
+@@ settings/external/litellm.html:text:27
+S "LiteLLM"
+T ""
+
+@@ settings/external/litellm.html:text:221
+S "LiteLLM Global Settings"
+T ""
+
+@@ settings/external/litellm.html:text:307
+S "Configure global parameters passed to LiteLLM for all providers."
+T ""
+
+@@ settings/external/litellm.html:text:508
+S "LiteLLM global parameters"
+T ""
+
+@@ settings/external/litellm.html:text:602
+S "Global LiteLLM params (e.g. timeout, stream_timeout) in .env format: one KEY=VALUE per line. Example:"
+T ""
+
+@@ settings/external/litellm.html:text:710
+S "stream_timeout=30"
+T ""
+
+@@ settings/external/litellm.html:text:734
+S ". Applied to all LiteLLM calls unless overridden. See"
+T ""
+
+@@ settings/external/litellm.html:text:852
+S "LiteLLM"
+T ""
+
+@@ settings/external/litellm.html:text:864
+S "and"
+T ""
+
+@@ settings/external/litellm.html:text:937
+S "timeouts"
+T ""
+
+## settings/external/secrets.html
+@@ settings/external/secrets.html:text:27
+S "Secrets"
+T ""
+
+@@ settings/external/secrets.html:text:221
+S "Secrets Management"
+T ""
+
+@@ settings/external/secrets.html:text:302
+S "Manage secrets and credentials that agents can use without exposing values to LLMs, chat history or logs. Placeholders are automatically replaced with values just before tool calls. If bare passwords occur in tool results, they are masked back to placeholders."
+T ""
+
+@@ settings/external/secrets.html:text:699
+S "Variables Store"
+T ""
+
+@@ settings/external/secrets.html:text:783
+S "Store non-sensitive variables in .env format e.g. EMAIL_IMAP_SERVER=\"imap.gmail.com\", one item per line. You can use comments starting with # to add descriptions for the agent. See"
+T ""
+
+@@ settings/external/secrets.html:text:1033
+S "example"
+T ""
+
+@@ settings/external/secrets.html:text:1049
+S "These variables are visible to LLMs and in chat history, they are not being masked."
+T ""
+
+@@ settings/external/secrets.html:text:1454
+S "Secrets Store"
+T ""
+
+@@ settings/external/secrets.html:text:1536
+S "Store secrets and credentials in .env format e.g. EMAIL_PASSWORD=\"s3cret-p4$$w0rd\", one item per line. You can use comments starting with # to add descriptions for the agent. See"
+T ""
+
+@@ settings/external/secrets.html:text:1787
+S "example"
+T ""
+
+@@ settings/external/secrets.html:text:1803
+S "These variables are not visile to LLMs and in chat history, they are being masked. ⚠️ only values with length >= 4 are being masked to prevent false positives."
+T ""
+
+## settings/external/update_checker.html
+@@ settings/external/update_checker.html:text:27
+S "Update Checker"
+T ""
+
+@@ settings/external/update_checker.html:text:228
+S "Update Checker"
+T ""
+
+@@ settings/external/update_checker.html:text:305
+S "Update checker periodically checks for new releases of Agent Zero and will notify when an update is recommended."
+T ""
+
+@@ settings/external/update_checker.html:text:421
+S "No personal data is sent to the update server, only randomized+anonymized unique ID and current version number, which help us evaluate the importance of the update in case of critical bug fixes etc."
+T ""
+
+@@ settings/external/update_checker.html:text:745
+S "Enable Update Checker"
+T ""
+
+@@ settings/external/update_checker.html:text:818
+S "Enable update checker to notify about newer versions of Agent Zero."
+T ""
+
+## settings/mcp/mcp-settings.html
+@@ settings/mcp/mcp-settings.html:text:27
+S "MCP/A2A"
+T ""
+
+@@ settings/mcp/mcp-settings.html:attribute:290
+S "External MCP Servers"
+T ""
+
+@@ settings/mcp/mcp-settings.html:text:339
+S "External MCP Servers"
+T ""
+
+@@ settings/mcp/mcp-settings.html:attribute:531
+S "A0 MCP Server"
+T ""
+
+@@ settings/mcp/mcp-settings.html:text:573
+S "A0 MCP Server"
+T ""
+
+@@ settings/mcp/mcp-settings.html:attribute:758
+S "A0 A2A Server"
+T ""
+
+@@ settings/mcp/mcp-settings.html:text:800
+S "A0 A2A Server"
+T ""
+
+## settings/mcp/mcp_client.html
+@@ settings/mcp/mcp_client.html:text:27
+S "External MCP Servers"
+T ""
+
+@@ settings/mcp/mcp_client.html:text:234
+S "External MCP Servers"
+T ""
+
+@@ settings/mcp/mcp_client.html:text:317
+S "Agent Zero can use external MCP servers, local or remote as tools."
+T ""
+
+@@ settings/mcp/mcp_client.html:text:509
+S "MCP Servers Configuration"
+T ""
+
+@@ settings/mcp/mcp_client.html:text:586
+S "External MCP servers can be configured here."
+T ""
+
+@@ settings/mcp/mcp_client.html:text:877
+S "Open"
+T ""
+
+@@ settings/mcp/mcp_client.html:text:1050
+S "MCP Client Init Timeout"
+T ""
+
+@@ settings/mcp/mcp_client.html:text:1142
+S "Timeout for MCP client initialization (in seconds). Higher values might be required for complex MCPs, but might also slowdown system startup."
+T ""
+
+@@ settings/mcp/mcp_client.html:text:1596
+S "MCP Client Tool Timeout"
+T ""
+
+@@ settings/mcp/mcp_client.html:text:1688
+S "Timeout for MCP client tool execution. Higher values might be required for complex tools, but might also result in long responses with failing tools."
+T ""
+
+## settings/mcp/mcp_server.html
+@@ settings/mcp/mcp_server.html:text:27
+S "A0 MCP Server"
+T ""
+
+@@ settings/mcp/mcp_server.html:text:227
+S "A0 MCP Server"
+T ""
+
+@@ settings/mcp/mcp_server.html:text:303
+S "Agent Zero can be exposed as an SSE MCP server. See"
+T ""
+
+@@ settings/mcp/mcp_server.html:text:422
+S "connection example"
+T ""
+
+@@ settings/mcp/mcp_server.html:text:571
+S "Enable A0 MCP Server"
+T ""
+
+@@ settings/mcp/mcp_server.html:text:660
+S "Expose Agent Zero as an SSE/HTTP MCP server. This will make this A0 instance available to MCP clients."
+T ""
+
+## settings/skills/import.html
+@@ settings/skills/import.html:text:25
+S "Import Skills"
+T ""
+
+@@ settings/skills/import.html:text:382
+S "Import Skills (SKILL.md)"
+T ""
+
+@@ settings/skills/import.html:text:549
+S "Select Skills Pack (.zip)"
+T ""
+
+@@ settings/skills/import.html:text:829
+S "Upload a repository/archive that contains SKILL.md skill folders (see agentskills.io)."
+T ""
+
+@@ settings/skills/import.html:text:1155
+S "Limit to project:"
+T ""
+
+@@ settings/skills/import.html:text:1407
+S "All"
+T ""
+
+@@ settings/skills/import.html:text:1834
+S "Limit to agent profile:"
+T ""
+
+@@ settings/skills/import.html:text:2097
+S "All"
+T ""
+
+@@ settings/skills/import.html:text:2549
+S "Namespace:"
+T ""
+
+@@ settings/skills/import.html:attribute:2642
+S "e.g. my-pack"
+T ""
+
+@@ settings/skills/import.html:text:2944
+S "Conflict policy:"
+T ""
+
+@@ settings/skills/import.html:text:3197
+S "Skip existing"
+T ""
+
+@@ settings/skills/import.html:text:3271
+S "Rename (add _2, _3...)"
+T ""
+
+@@ settings/skills/import.html:text:3357
+S "Overwrite existing"
+T ""
+
+@@ settings/skills/import.html:text:3663
+S "Preview"
+T ""
+
+@@ settings/skills/import.html:text:3860
+S "Import"
+T ""
+
+@@ settings/skills/import.html:js_literal:4085
+S "Processing..."
+T ""
+
+@@ settings/skills/import.html:text:4411
+S "Preview"
+T ""
+
+@@ settings/skills/import.html:text:4500
+S "Namespace:"
+T ""
+
+@@ settings/skills/import.html:text:4613
+S "Would import:"
+T ""
+
+@@ settings/skills/import.html:text:4739
+S "Would skip:"
+T ""
+
+@@ settings/skills/import.html:js_literal:5010
+S "\\n"
+T ""
+
+@@ settings/skills/import.html:text:5154
+S "Import Complete"
+T ""
+
+@@ settings/skills/import.html:text:5251
+S "Imported:"
+T ""
+
+@@ settings/skills/import.html:text:5372
+S "Skipped:"
+T ""
+
+@@ settings/skills/import.html:text:5552
+S "Skills are indexed automatically. If you don’t see them immediately, use the Restart button in the left pane."
+T ""
+
+## settings/skills/list.html
+@@ settings/skills/list.html:text:25
+S "List Skills"
+T ""
+
+@@ settings/skills/list.html:text:395
+S "List Skills"
+T ""
+
+@@ settings/skills/list.html:text:483
+S "Browse skills across global and project scopes. Duplicates are shown individually."
+T ""
+
+@@ settings/skills/list.html:text:811
+S "Project"
+T ""
+
+@@ settings/skills/list.html:text:1035
+S "All"
+T ""
+
+@@ settings/skills/list.html:text:1498
+S "Agent profile"
+T ""
+
+@@ settings/skills/list.html:text:1732
+S "All"
+T ""
+
+@@ settings/skills/list.html:attribute:2238
+S "Refresh"
+T ""
+
+@@ settings/skills/list.html:text:2492
+S "Refresh"
+T ""
+
+@@ settings/skills/list.html:text:2724
+S "Loading skills..."
+T ""
+
+@@ settings/skills/list.html:text:3154
+S "No skills found."
+T ""
+
+@@ settings/skills/list.html:js_literal:3592
+S "(unnamed skill)"
+T ""
+
+@@ settings/skills/list.html:attribute:3885
+S "Open in browser"
+T ""
+
+@@ settings/skills/list.html:text:4096
+S "Open"
+T ""
+
+@@ settings/skills/list.html:attribute:4246
+S "Delete"
+T ""
+
+@@ settings/skills/list.html:js_literal:4683
+S "No description provided."
+T ""
+
+## settings/skills/skills-settings.html
+@@ settings/skills/skills-settings.html:text:27
+S "Skills"
+T ""
+
+@@ settings/skills/skills-settings.html:attribute:286
+S "Skills"
+T ""
+
+@@ settings/skills/skills-settings.html:text:321
+S "List Skills"
+T ""
+
+@@ settings/skills/skills-settings.html:attribute:507
+S "Skills"
+T ""
+
+@@ settings/skills/skills-settings.html:text:542
+S "Import Skills"
+T ""
+
+## settings/speech/microphone.html
+@@ settings/speech/microphone.html:text:26
+S "Microhone settings"
+T ""
+
+@@ settings/speech/microphone.html:text:1323
+S "Request permission to select device"
+T ""
+
+@@ settings/speech/microphone.html:text:1591
+S "Waiting for devices... [retry]"
+T ""
+
+## settings/tunnel/tunnel-section.html
+@@ settings/tunnel/tunnel-section.html:text:571
+S "Flare Tunnel"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:639
+S "Create a secure public URL to access your Agent Zero instance anytime,\n                    anywhere."
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:979
+S "Tunnel provider"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:1060
+S "Select provider for public tunnel"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:1412
+S "Cloudflare"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:1490
+S "Microsoft Dev Tunnels"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:1576
+S "Serveo"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:js_literal:2021
+S "Processing tunnel request..."
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:2483
+S "Microsoft Login Required"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:2791
+S "Open the authentication page:"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:3392
+S "Enter this code:"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:js_literal:4059
+S "Copied!"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:js_literal:4071
+S "Copy Code"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:4350
+S "Waiting for authentication to complete..."
+T ""
+
+@@ settings/tunnel/tunnel-section.html:attribute:5196
+S "Copy to clipboard"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:5321
+S "Copy"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:attribute:5533
+S "Generate new URL"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:5652
+S "Refresh"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:6098
+S "Scan with mobile device"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:6254
+S "Share this URL to allow others to access your Agent Zero instance."
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:6454
+S "This URL will persist until you stop the tunnel or restart the Docker container."
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:6839
+S "Stop Tunnel"
+T ""
+
+@@ settings/tunnel/tunnel-section.html:text:7326
+S "Create Tunnel"
+T ""
