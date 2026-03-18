@@ -10,3 +10,4 @@ INFO:     ::1:64896 - "WebSocket /socket.io/?EIO=4&transport=websocket" [accepte
 INFO:     ::1:54058 - "WebSocket /socket.io/?EIO=4&transport=websocket" [accepted]
 INFO:     ::1:54536 - "WebSocket /socket.io/?EIO=4&transport=websocket" [accepted]
 INFO:     ::1:51765 - "WebSocket /socket.io/?EIO=4&transport=websocket" [accepted]
+INFO:     ::1:56543 - "WebSocket /socket.io/?EIO=4&transport=websocket" [accepted]

@@ -1,4 +1,4 @@
 interface:
   display_name: "Overlay Localization"
-  short_description: "Non-invasive repo language overlays"
-  default_prompt: "Use $overlay-localization to extract untranslated text and apply a user-edited bundle without modifying upstream source."
+  short_description: "Two-script localization workflow for overlays or locale files"
+  default_prompt: "Use $overlay-localization to set up a repeatable localization workflow with one export script and one apply script, using either an overlay tree or the repo's existing locale files."

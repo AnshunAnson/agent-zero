@@ -2,7 +2,15 @@
 
 Create one repo-local adapter file, usually `\.overlay-localization.json`.
 
-This adapter only describes extraction and apply behavior. It does not define machine translation. The expected workflow is: export bundle, optionally export a plain-text translation file, user edits translations outside the chat, import the text file back into JSON, then apply bundle.
+This adapter only describes overlay-mode extraction and apply behavior. It does not define machine translation.
+
+User-facing workflow should still be:
+
+1. run export script
+2. edit the text bundle
+3. run apply script
+
+If an internal import step exists, keep it behind the apply script rather than exposing it to the user.
 
 ## Minimal Example
 
